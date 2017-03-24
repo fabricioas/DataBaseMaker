@@ -1,4 +1,4 @@
-package br.com.fabrleadr.utils.sql;
+package br.com.dbm.utils.sql;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

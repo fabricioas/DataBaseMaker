@@ -1,6 +1,6 @@
-package br.com.fabrleadr.utils.sql.parser;
+package br.com.dbm.utils.sql.parser;
 
-import br.com.fabrleadr.utils.sql.model.Metadata;
+import br.com.dbm.utils.sql.model.Metadata;
 
 /**
  *

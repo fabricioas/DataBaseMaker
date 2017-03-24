@@ -1,4 +1,4 @@
-package br.com.fabrleadr.utils.sql.parser.xml;
+package br.com.dbm.utils.sql.parser.xml;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -8,12 +8,12 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import br.com.fabrleadr.utils.sql.model.CheckConstraint;
-import br.com.fabrleadr.utils.sql.model.Constraint;
-import br.com.fabrleadr.utils.sql.model.ForeignKey;
-import br.com.fabrleadr.utils.sql.model.Metadata;
-import br.com.fabrleadr.utils.sql.model.TableAttribute;
-import br.com.fabrleadr.utils.sql.parser.StructureParser;
+import br.com.dbm.utils.sql.model.CheckConstraint;
+import br.com.dbm.utils.sql.model.Constraint;
+import br.com.dbm.utils.sql.model.ForeignKey;
+import br.com.dbm.utils.sql.model.Metadata;
+import br.com.dbm.utils.sql.model.TableAttribute;
+import br.com.dbm.utils.sql.parser.StructureParser;
 
 /**
  *

@@ -1,7 +1,7 @@
-package br.com.fabrleadr.utils.sql.parser;
+package br.com.dbm.utils.sql.parser;
 
-import br.com.fabrleadr.utils.sql.parser.csv.CsvStructureParser;
-import br.com.fabrleadr.utils.sql.parser.xml.XmlStructureParser;
+import br.com.dbm.utils.sql.parser.csv.CsvStructureParser;
+import br.com.dbm.utils.sql.parser.xml.XmlStructureParser;
 
 /**
  *

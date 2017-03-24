@@ -1,4 +1,4 @@
-package br.com.fabrleadr.utils.sql.writer;
+package br.com.dbm.utils.sql.writer;
 
 /**
  *

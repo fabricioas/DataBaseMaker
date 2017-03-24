@@ -1,14 +1,14 @@
-package br.com.fabrleadr.utils.sql.builder;
+package br.com.dbm.utils.sql.builder;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.fabrleadr.utils.sql.model.CheckConstraint;
-import br.com.fabrleadr.utils.sql.model.ForeignKey;
-import br.com.fabrleadr.utils.sql.model.Metadata;
-import br.com.fabrleadr.utils.sql.model.TableAttribute;
+import br.com.dbm.utils.sql.model.CheckConstraint;
+import br.com.dbm.utils.sql.model.ForeignKey;
+import br.com.dbm.utils.sql.model.Metadata;
+import br.com.dbm.utils.sql.model.TableAttribute;
 
 /**
  *

@@ -1,4 +1,4 @@
-package br.com.fabrleadr.utils.sql.model;
+package br.com.dbm.utils.sql.model;
 
 /**
  *

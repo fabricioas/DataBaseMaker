@@ -1,13 +1,13 @@
-package br.com.fabrleadr.utils.sql;
+package br.com.dbm.utils.sql;
 
 import javax.swing.JOptionPane;
 
-import br.com.fabrleadr.utils.sql.builder.DDLBuilder;
-import br.com.fabrleadr.utils.sql.model.Metadata;
-import br.com.fabrleadr.utils.sql.parser.StructureParser;
-import br.com.fabrleadr.utils.sql.parser.StructureParserFactory;
-import br.com.fabrleadr.utils.sql.writer.DDLOutput;
-import br.com.fabrleadr.utils.sql.writer.DDLOutputFactory;
+import br.com.dbm.utils.sql.builder.DDLBuilder;
+import br.com.dbm.utils.sql.model.Metadata;
+import br.com.dbm.utils.sql.parser.StructureParser;
+import br.com.dbm.utils.sql.parser.StructureParserFactory;
+import br.com.dbm.utils.sql.writer.DDLOutput;
+import br.com.dbm.utils.sql.writer.DDLOutputFactory;
 
 /**
  *

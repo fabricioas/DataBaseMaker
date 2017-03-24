@@ -1,14 +1,14 @@
-package br.com.fabrleadr.utils.sql.parser.csv;
+package br.com.dbm.utils.sql.parser.csv;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import br.com.fabrleadr.utils.sql.model.CheckConstraint;
-import br.com.fabrleadr.utils.sql.model.Constraint;
-import br.com.fabrleadr.utils.sql.model.ForeignKey;
-import br.com.fabrleadr.utils.sql.model.Metadata;
-import br.com.fabrleadr.utils.sql.model.TableAttribute;
-import br.com.fabrleadr.utils.sql.parser.StructureParser;
+import br.com.dbm.utils.sql.model.CheckConstraint;
+import br.com.dbm.utils.sql.model.Constraint;
+import br.com.dbm.utils.sql.model.ForeignKey;
+import br.com.dbm.utils.sql.model.Metadata;
+import br.com.dbm.utils.sql.model.TableAttribute;
+import br.com.dbm.utils.sql.parser.StructureParser;
 
 
 /**
@@ -78,7 +78,7 @@ public class CsvStructureParser implements StructureParser {
             attr.setAttrDecimalSize(Integer.valueOf(fields[METADATA_ATTR_DECIMAL]));
         }
         if (fields.length > METADATA_ATTR_CONSTRAINT) {
-            Constraint constraint = Constraint.createInstance(fields[METADATA_ATTR_CONSTRAINT]);
+        	Constraint constraint = Constraint.createInstance(fields[METADATA_ATTR_CONSTRAINT]);
             String rule = fields[METADATA_ATTR_CONSTRAINT_VALUE];
             if(constraint instanceof ForeignKey){
                 ForeignKey fk = (ForeignKey)constraint;
