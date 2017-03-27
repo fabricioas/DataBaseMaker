@@ -12,7 +12,16 @@
 
 	<name>DataBaseMaker-Domain</name>
 	<url>https://github.com/fabricioas/DataBaseMaker</url>
-
-	<dependencies>
-	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>${java.version}</target>
+					<source>${java.version}</source>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

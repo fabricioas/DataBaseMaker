@@ -2,3 +2,15 @@
 /.settings
 /.project
 /.classpath
+/DataBaseMaker-Core/.settings
+/DataBaseMaker-Core/.classpath
+/DataBaseMaker-Core/.project
+/DataBaseMaker-Domain/.settings
+/DataBaseMaker-Domain/.project
+/DataBaseMaker-Domain/.classpath
+/DataBaseMaker-Core/target
+/DataBaseMaker-Domain/target
+/DataBaseMaker-Web/.settings
+/DataBaseMaker-Web/target
+/DataBaseMaker-Web/.classpath
+/DataBaseMaker-Web/.project

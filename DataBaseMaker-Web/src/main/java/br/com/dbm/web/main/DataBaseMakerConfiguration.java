@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-@ComponentScan("br.com.fabrleadr")
+@ComponentScan("br.com.dbm")
 public class DataBaseMakerConfiguration {
 
 }
