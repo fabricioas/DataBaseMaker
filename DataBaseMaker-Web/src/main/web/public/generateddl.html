@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gerador de DDL</title>
+<script type="text/javascript" src="./js/jquery-3.2.0.js"></script>
+<link rel="stylesheet" href="./css/w3.css">
+
+</head>
+<body>
+	<div class="w3-container">
+		<h2>Gerar DDL</h2>
+		<div class="w3-panel w3-blue w3-round-xlarge">
+			<p>Informe o Nome do Arquivo de Saida e Cole o XML para geração
+				da DDL.</p>
+
+		</div>
+	</div>
+	<div class="w3-container">
+		<label class="w3-text-blue"><b>Nome Arquivo Saída</b></label> 
+		<input id="fileName"
+			class="w3-input w3-border" type="text"> <label
+			class="w3-text-blue"><b>XML de Entrada</b></label>
+		<textarea id=xmlInput class="w3-input w3-border" cols="200" rows="25"></textarea>
+
+		<button id="btn-envia" class="w3-btn w3-blue">Gerar DDL</button>
+
+	</div>
+
+
+	<script type="text/javascript">
+		$(document).ajaxError(function(){
+		    alert("Erro na hora do processamento");
+		});
+		$(document).ready(function() {
+
+			$("#btn-envia").click(function() {
+				var fileName = $("#fileName").val();
+				var xmlInput = $("#xmlInput").val();
+				$.post("/dbm/generate", {
+					fileName : fileName,
+					xmlInput : xmlInput
+				});
+			});
+
+		});
+	</script>
+
+
+</body>
+</html>

@@ -55,9 +55,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<directory>src/main/resources</directory>
-				<excludes>
-				</excludes>
+				<directory>src/main/web</directory>
 			</resource>
 		</resources>
 		<plugins>

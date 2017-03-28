@@ -1,5 +1,9 @@
 package br.com.dbm.core.sql.parser.xml;
 
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -21,25 +25,21 @@ import br.com.dbm.core.sql.parser.StructureParser;
  */
 public class XmlStructureParser implements StructureParser {
 
-    private String comment;
-
     @Override
-    public Metadata readMetadata(String filename) throws Exception {
-        Document doc = parseDocument(filename);
+    public List<Metadata> readMetadata(String xml) throws Exception {
+        Document doc = parseDocument(xml);
         NodeList temp = doc.getElementsByTagName("table");
-        return readTableElement(temp.item(0));
+        ArrayList<Metadata> metadatas = new ArrayList<>();
+        for(int i = 0 ; i < temp.getLength(); i++ ){
+            metadatas.add(readTableElement(temp.item(i)));
+        }
+        return metadatas;
     }
 
-    public Document parseDocument(String filename) throws Exception {
+    public Document parseDocument(String xml) throws Exception {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-        return db.parse(filename);
-    }
-
-    private void parseXmlFile(String filename) throws Exception {
-//        SAXParserFactory spf = SAXParserFactory.newInstance();
-//        SAXParser sp = spf.newSAXParser();
-//        sp.parse(filename, this);
+        return db.parse(new ByteArrayInputStream(xml.getBytes()));
     }
 
     private Metadata readTableElement(Node element) throws Exception {

@@ -2,6 +2,8 @@ package br.com.dbm.core.sql.parser.csv;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.dbm.core.sql.model.CheckConstraint;
 import br.com.dbm.core.sql.model.Constraint;
@@ -32,11 +34,12 @@ public class CsvStructureParser implements StructureParser {
     public static final int METADATA_ATTR_MANDATORY = 7;
 
     @Override
-    public Metadata readMetadata(String filename) throws Exception {
+    public List<Metadata> readMetadata(String filename) throws Exception {
         FileReader fr = new FileReader(filename);
         BufferedReader br = new BufferedReader(fr);
         String line = br.readLine();
         Metadata metadata = new Metadata();
+        ArrayList<Metadata> list = new ArrayList<>();
         String fields[] = line.split(";");
         metadata.setTableName(fields[1]);
         metadata.setTableComment(fields[8]);
@@ -64,7 +67,8 @@ public class CsvStructureParser implements StructureParser {
             fields = line.split(";");
         } while (true);
         br.close();
-        return metadata;
+        list.add(metadata);
+        return list;
     }
 
     private static TableAttribute buildAttribute(String[] fields) throws Exception {
