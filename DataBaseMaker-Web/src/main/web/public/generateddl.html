@@ -41,6 +41,8 @@
 				$.post("/dbm/generate", {
 					fileName : fileName,
 					xmlInput : xmlInput
+				},function(data, e){
+					window.location = "/dbm/download/" + data;
 				});
 			});
 
