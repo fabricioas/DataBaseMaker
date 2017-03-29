@@ -23,7 +23,7 @@ public class IndexController {
 	@RequestMapping("/")
 	@ResponseBody
 	public String home() throws Exception {
-		return "Hello World!";
+		return "<a href='generateddl.html'> Gerador DDL</a>";
 	}
 
 	@RequestMapping(value="/generate")
