@@ -29,7 +29,7 @@ public class IndexController {
 	@RequestMapping(value="/generate")
 	@ResponseBody
 	public String generateddl(Documento data) throws Exception {
-//		validateGeracaoDDL(data);
+		validateGeracaoDDL(data);
 		DDLOutput output = SQLGenerator.execute(data.getXmlInput(),data.getFileName());		
 		return dbmSession.addDDLOutput(output);
 	}
@@ -37,7 +37,6 @@ public class IndexController {
 	@RequestMapping(method = RequestMethod.GET, value="/download/{key}", produces = "application/octet-stream")
 	@ResponseBody
 	public ResponseEntity<StringBuilder> download(@PathVariable("key") String key) throws Exception {
-//		validateGeracaoDDL(data);
 		DDLOutput output = dbmSession.getDDLOutput(key);
 		return ResponseEntity
 	            .ok()
