@@ -116,3 +116,7 @@ function drawNodes(startPos, ctx, nodes, settings) {
       }
    }
 }
+
+function drawDiagramFromXML(xml, canvas) {
+   
+}

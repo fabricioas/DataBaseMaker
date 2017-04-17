@@ -1,54 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gerador de DDL</title>
-<script type="text/javascript" src="./js/jquery-3.2.0.js"></script>
-<link rel="stylesheet" href="./css/w3.css">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Gerador de DDL</title>
+      <script type="text/javascript" src="./js/jquery-3.2.0.js"></script>
+      <script type="text/javascript" src="./js/graphics-lib.js"></script>
+      <script type="text/javascript" src="./js/domain.js"></script>
+      <script type="text/javascript" src="./js/dmb-lib.js"></script>
+      <link rel="stylesheet" href="./css/w3.css">
 
-</head>
-<body>
-	<div class="w3-container">
-		<h2>Gerar DDL</h2>
-		<div class="w3-panel w3-blue w3-round-xlarge">
-			<p>Informe o Nome do Arquivo de Saida e Cole o XML para geração
-				da DDL.</p>
+   </head>
+   <body>
+      <div class="w3-container">
+	 <h2>Gerar DDL</h2>
+	 <div class="w3-panel w3-blue w3-round-xlarge">
+	    <p>Informe o Nome do Arquivo de Saida e Cole o XML para geração
+	       da DDL.</p>
 
-		</div>
-	</div>
-	<div class="w3-container">
-		<label class="w3-text-blue"><b>Nome Arquivo Saída</b></label> 
-		<input id="fileName"
-			class="w3-input w3-border" type="text"> <label
-			class="w3-text-blue"><b>XML de Entrada</b></label>
-		<textarea id=xmlInput class="w3-input w3-border" cols="200" rows="25"></textarea>
+	 </div>
+      </div>
+      <div class="w3-container">
+	 <label class="w3-text-blue"><b>Nome Arquivo Saída</b></label> 
+	 <input id="fileName" class="w3-input w3-border" type="text"> 
+	 <div>
+	    <div style="width: 35%; float: left;">
+	       <label class="w3-text-blue"><b>XML de Entrada</b></label>
+	       <textarea id=xmlInput class="w3-input w3-border" rows="38" cols="200"></textarea>
+	       <button id="btn-envia" class="w3-btn w3-blue">Gerar DDL</button>
+	    </div>
+	    <div style="width: 64%; float: left; margin-left: 5px;">
+	       <label class="w3-text-blue"><b>Diagrama ER</b></label>
+	       <canvas style="background-color: lightgray" id="diagramaer" class="w3-input w3-border" width="500" height="507"></canvas>
+	       <button id="btn-exportar" class="w3-btn w3-blue">Exportar Imagem</button>
+	    </div>
 
-		<button id="btn-envia" class="w3-btn w3-blue">Gerar DDL</button>
-
-	</div>
-
-
-	<script type="text/javascript">
-		$(document).ajaxError(function(){
-		    alert("Erro na hora do processamento");
-		});
-		$(document).ready(function() {
-
-			$("#btn-envia").click(function() {
-				var fileName = $("#fileName").val();
-				var xmlInput = $("#xmlInput").val();
-				$.post("/dbm/generate", {
-					fileName : fileName,
-					xmlInput : xmlInput
-				},function(data, e){
-					window.location = "/dbm/download/" + data;
-				});
-			});
-
-		});
-	</script>
+	 </div>
+      </div>
 
 
-</body>
+      <script type="text/javascript">
+	 $(document).ajaxError(function () {
+	    alert("Erro na hora do processamento");
+	 });
+	 $(document).ready(function () {
+
+	    $("#btn-envia").click(function () {
+	       var fileName = $("#fileName").val();
+	       var xmlInput = $("#xmlInput").val();
+	       $.post("/dbm/generate", {
+		  fileName: fileName,
+		  xmlInput: xmlInput
+	       }, function (data, e) {
+		  window.location = "/dbm/download/" + data;
+	       });
+	    });
+	    $("#xmlInput").change(function () {
+	       var xml = $("#xmlInput").val();
+	       var canvas = $("#xmlInput").val();
+	       drawDiagramFromXML(xml, canvas);
+	    });
+
+	 });
+      </script>
+
+
+   </body>
 </html>
