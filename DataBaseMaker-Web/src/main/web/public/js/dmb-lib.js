@@ -1,7 +1,5 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Funções do app para desenho
  */
 
 function createTableFrame(table, x0, y0, fontSize) {
@@ -11,16 +9,21 @@ function createTableFrame(table, x0, y0, fontSize) {
 	 maxLength = table.attributes[i].length;
       }
    }
+   var maxLength = table.computeWidth();
    var width = (maxLength + 3) * fontSize * 0.625;
    var height = (table.attributes.length + 1) * fontSize * 1.2 + fontSize / 2;
    return {"x0": x0, "y0": y0, "width": width, "height": height};
 }
 
-function drawTable(ctx, table, tableFrame, font, fontSize, background, color) {
+function drawTable(ctx, table, tableFrame, settings) {
    var x0 = tableFrame.x0;
    var y0 = tableFrame.y0;
    var width = tableFrame.width;
    var height = tableFrame.height;
+   var fontSize = settings.fontSize;
+   var font = settings.font;
+   var background = settings.backgroundColor;
+   var color = settings.foregroundColor;
 
    var shadow = createShadowObject(fontSize, fontSize * 0.2, fontSize * 0.2, "gray");
    drawRect(ctx, x0, y0, width, height, background, color, shadow);
@@ -28,5 +31,88 @@ function drawTable(ctx, table, tableFrame, font, fontSize, background, color) {
    drawLine(ctx, x0, y0 + fontSize * 1.4, x0 + width, y0 + fontSize * 1.4);
    for (i = 0; i < table.attributes.length; i++) {
       drawText(ctx, "» " + table.attributes[i], font, fontSize, "lighter", null, x0 + 10, y0 + fontSize * 1.2 * (i + 2), null, "left", color);
+   }
+}
+
+function getNextNodes(nodes, startIndex) {
+   var refNode = nodes[startIndex];
+   var arr = new Array(refNode);
+   for (var i = startIndex + 1; i < nodes.length; i++) {
+      if (nodes[i].refCount === refNode.refCount) {
+	 arr.push(nodes[i]);
+      }
+   }
+   return arr;
+}
+
+function computeFrame(center, width, height, current, nodes, level) {
+   var frame = {
+      "x0": 0, 
+      "y0": 0, 
+      "width": 0, 
+      "height": 0
+   };
+   
+   var w = width * (level === 1 && nodes.length === 1? 0 : level-1) ;
+   var h = height * (level === 1 && nodes.length === 1? 0 : level-1);
+   var size = Math.max(w, h) * 0.8;
+   var dx = width / 2;
+   var dy = height / 2;
+   var step = TWO_PI * (current / nodes.length) + (HALF_PI * ((level-1) % 2));
+   frame.x0 = center.x + Math.cos(step) * size - dx;
+   frame.y0 = center.y + Math.sin(step) * size - dy;
+   
+   frame.width = width;
+   frame.height = height;
+   return frame;
+}
+
+function drawNodes(startPos, ctx, nodes, settings) {
+   var startIndex = 0;
+   var level = 1;
+   var width, height;
+   var frames = new Array();
+   while (startIndex < nodes.length) {
+      var next = getNextNodes(nodes, startIndex);
+      startIndex += next.length;
+      if (!width) {
+	 var maxLength = 0;
+	 var maxHeight = 0;
+	 for (var i = 0; i < nodes.length; i++) {
+	    var length = nodes[i].info.computeWidth();
+	    if (length > maxLength) {
+	       maxLength = length;
+	    }
+	    var hght = nodes[i].info.computeHeight();
+	    if (hght > maxHeight) {
+	       maxHeight = hght;
+	    }
+
+	 }
+	 
+//	 var width = (maxLength + 3) * fontSize * 0.625;
+//         var height = (table.attributes.length + 1) * fontSize * 1.2 + fontSize / 2;
+	 width = (maxLength + 2)
+		 * settings.fontSize * 0.625;
+	 height = maxHeight
+		 * settings.fontSize * 1.2
+		 + settings.fontSize / 2;
+      }
+      for (var i = 0; i < next.length; i++) {
+	 var frame = computeFrame(startPos, width, height, i, next, level);
+	 frames[next[i].id] = frame;
+      }
+      level++;
+   }
+   
+   for (var i = 0; i < nodes.length; i++) {
+      drawTable(ctx, nodes[i].info, frames[nodes[i].id], settings);
+   }
+   
+   for (var i = nodes.length-1; i > 0; i--) {
+      var linksTo = nodes[i].linksTo;
+      for (var j = 0; j < linksTo.length; j++) {
+	 drawLink(ctx, frames[nodes[i].id], frames[linksTo[j].id]);
+      }
    }
 }

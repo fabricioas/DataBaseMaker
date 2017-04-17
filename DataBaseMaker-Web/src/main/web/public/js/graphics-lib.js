@@ -6,6 +6,8 @@
 
 var ONE_RADIAN = 180 / Math.PI;
 var ONE_DEGREES = Math.PI / 180;
+var TWO_PI = Math.PI * 2;
+var HALF_PI = Math.PI / 2;
 
 function drawLine(ctx, x0, y0, x1, y1, style) {
    ctx.moveTo(x0, y0);

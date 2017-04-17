@@ -33,7 +33,7 @@
    <body>
 
       <div id="demo"></div>
-      <canvas id="cv" width="500" height="500">
+      <canvas id="cv" width="1000" height="1000">
       </canvas>
       <!--<img id="scream" src="img_the_scream.jpg">-->
 
@@ -50,16 +50,26 @@
 	 tab4.addAttr("codigo_grupo_dominio");
 	 tab4.addAttr("codigo_grupo");
 	 tab4.addAttr("codigo_dominio");
+	 var tab5 = new table("sistema");
+	 tab5.addAttr("codigo");
+	 tab5.addAttr("descricao");
+	 var tab6 = new table("sistema_dominio");
+	 tab6.addAttr("codigo_sistema_dominio");
+	 tab6.addAttr("codigo_sistema");
+	 tab6.addAttr("codigo_dominio");
 
-	 var node1 = new node(tab1, null);
-	 var node2 = new node(tab2, node1);
-	 var node3 = new node(tab3, null);
-	 var node4 = new node(tab4, node3);
+	 var node1 = new node(1, tab1, null);
+	 var node2 = new node(2, tab2, node1);
+	 var node3 = new node(3, tab3, null);
+	 var node4 = new node(4, tab4, node3);
+	 var node5 = new node(5, tab5, null);
+	 var node6 = new node(6, tab6, node5);
 	 node4.addLinkTo(node1);
+	 node6.addLinkTo(node1);
 
-	 var nodeList = [node1, node2, node3, node4];
+	 var nodeList = [node1, node2, node3, node5, node6, node4];
 
-	 sort(nodeList, "refCount");
+	 sortBy(nodeList, "refCount", greaterThan);
 
 	 var doc = "<h1>A partir da tabela filha</h1><br/>" + node4.printLinkTo("");
 	 doc += "<br/><h1>A partir da tabela mestre</h1><br/>";
@@ -74,29 +84,41 @@
 	 var cv = document.getElementById("cv");
 	 var ctx = cv.getContext("2d");
 
-	 var tableFrame1 = createTableFrame(tab1, cv.width / 2 - 50, 90, 12);
-	 drawTable(ctx, tab1, tableFrame1, "Menlo", 12, "#ccecef", "tomato");
+//	 var tableFrame1 = createTableFrame(tab1, cv.width / 2 - 50, 90, 12);
+//	 drawTable(ctx, tab1, tableFrame1, "Menlo", 12, "#ccecef", "tomato");
+//
+//	 var tableFrame2 = createTableFrame(tab4, cv.width / 2 - 150, 160, 16);
+//	 drawTable(ctx, tab4, tableFrame2, "Helvetica", 16, "#b0ccff", "black");
+//
+//	 var tableFrame3 = createTableFrame(tab2, cv.width / 2 - 100, 10, 16);
+//	 drawTable(ctx, tab2, tableFrame3, "Helvetica", 16, "#b0ccff", "black");
+//
+//	 var tableFrame4 = createTableFrame(tab3, cv.width / 2 - 200, 330, 14);
+//	 drawTable(ctx, tab3, tableFrame4, "Helvetica", 14, "#b0ccff", "black");
+//
+//	 var tableFrame5 = createTableFrame(tab1, cv.width - 200, 300, 24);
+//	 drawTable(ctx, tab1, tableFrame5, "Helvetica", 24, "#b0ccff", "black");
+//
+//	 console.log("tableFrame2 -> tableFrame1");
+//	 drawLink(ctx, tableFrame2, tableFrame1);
+//	 console.log("tableFrame3 -> tableFrame1");
+//	 drawLink(ctx, tableFrame3, tableFrame1);
+//	 console.log("tableFrame2 -> tableFrame4");
+//	 drawLink(ctx, tableFrame2, tableFrame4);
+//	 console.log("tableFrame2 -> tableFrame5");
+//	 drawLink(ctx, tableFrame2, tableFrame5);
 
-	 var tableFrame2 = createTableFrame(tab4, cv.width / 2 - 150, 160, 16);
-	 drawTable(ctx, tab4, tableFrame2, "Helvetica", 16, "#b0ccff", "black");
-
-	 var tableFrame3 = createTableFrame(tab2, cv.width / 2 - 100, 10, 16);
-	 drawTable(ctx, tab2, tableFrame3, "Helvetica", 16, "#b0ccff", "black");
-
-	 var tableFrame4 = createTableFrame(tab3, cv.width / 2 - 200, 330, 14);
-	 drawTable(ctx, tab3, tableFrame4, "Helvetica", 14, "#b0ccff", "black");
-
-	 var tableFrame5 = createTableFrame(tab1, cv.width - 200, 300, 24);
-	 drawTable(ctx, tab1, tableFrame5, "Helvetica", 24, "#b0ccff", "black");
-
-	 console.log("tableFrame2 -> tableFrame1");
-	 drawLink(ctx, tableFrame2, tableFrame1);
-	 console.log("tableFrame3 -> tableFrame1");
-	 drawLink(ctx, tableFrame3, tableFrame1);
-	 console.log("tableFrame2 -> tableFrame4");
-	 drawLink(ctx, tableFrame2, tableFrame4);
-	 console.log("tableFrame2 -> tableFrame5");
-	 drawLink(ctx, tableFrame2, tableFrame5);
+   var settings = {
+     font: "Helvetica", 
+     fontSize: 12,
+     backgroundColor: "#b0ccff",
+     foregroundColor: "black"
+   };
+   var center = {
+      x: cv.width / 2,
+      y: cv.height / 2
+   };
+   drawNodes(center, ctx, nodeList, settings);
 
       </script>
    </body>

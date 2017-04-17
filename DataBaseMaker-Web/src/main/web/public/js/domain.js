@@ -8,9 +8,22 @@ function table(name) {
    this.addAttr = function (attribute) {
       this.attributes.push(attribute);
    };
+   this.computeWidth = function(){
+      var maxLength = this.name.length;
+      for (i = 0; i < this.attributes.length; i++) {
+	 if (this.attributes[i].length > maxLength) {
+	    maxLength = this.attributes[i].length;
+	 }
+      }
+      return maxLength;
+   };
+   this.computeHeight = function(){
+      return this.attributes.length + 1;
+   };
 }
 
-function node(info, linkTo) {
+function node(id, info, linkTo) {
+   this.id = id;
    this.info = info;
    this.refCount = 0;
    this.linksTo = new Array();
@@ -23,7 +36,7 @@ function node(info, linkTo) {
       linkTo.linksFrom.push(this);
    };
 
-   if (linkTo != null) {
+   if (linkTo !== null) {
       this.addLinkTo(linkTo);
    }
 
@@ -74,4 +87,26 @@ function sort(list, field) {
       list[k] = list[i];
       list[i] = temp;
    }
+}
+
+function sortBy(list, field, comparator) {
+   for (i = 0; i < list.length; i++) {
+      var k = i;
+      for (j = list.length - 1; j > i; j--) {
+	 if (comparator(list[j][field], list[k][field])) {
+	    k = j;
+	 }
+      }
+      var temp = list[k];
+      list[k] = list[i];
+      list[i] = temp;
+   }
+}
+
+function lessThan(value1, value2) {
+   return value1 < value2;
+}
+
+function greaterThan(value1, value2) {
+   return value1 > value2;
 }
