@@ -102,11 +102,3 @@ function sortBy(list, field, comparator) {
       list[i] = temp;
    }
 }
-
-function lessThan(value1, value2) {
-   return value1 < value2;
-}
-
-function greaterThan(value1, value2) {
-   return value1 > value2;
-}

@@ -45,26 +45,36 @@ function getNextNodes(nodes, startIndex) {
    return arr;
 }
 
-function computeFrame(center, width, height, current, nodes, level) {
+function computeFrame(center, width, height, current, nodes, level, settings) {
    var frame = {
-      "x0": 0, 
-      "y0": 0, 
-      "width": 0, 
+      "x0": 0,
+      "y0": 0,
+      "width": 0,
       "height": 0
    };
-   
-   var w = width * (level === 1 && nodes.length === 1? 0 : level-1) ;
-   var h = height * (level === 1 && nodes.length === 1? 0 : level-1);
-   var size = Math.max(w, h) * 0.8;
+
+   var w = width * (level === 1 && nodes.length === 1 ? 0 : level - 1) * 0.8;
+   var h = height * (level === 1 && nodes.length === 1 ? 0 : level - 1) * 0.8;
+   var size = Math.max(w, h);
    var dx = width / 2;
    var dy = height / 2;
-   var step = TWO_PI * (current / nodes.length) + (HALF_PI * ((level-1) % 2));
+   var step = TWO_PI * (current / nodes.length) + (HALF_PI * ((level - 1) % 2));
    frame.x0 = center.x + Math.cos(step) * size - dx;
    frame.y0 = center.y + Math.sin(step) * size - dy;
-   
+
    frame.width = width;
-   frame.height = height;
+   frame.height = nodes[current].info.computeHeight() * settings.fontSize * 1.2
+		 + settings.fontSize / 2;
    return frame;
+}
+
+
+function lessThan(value1, value2) {
+   return value1 < value2;
+}
+
+function greaterThan(value1, value2) {
+   return value1 > value2;
 }
 
 function drawNodes(startPos, ctx, nodes, settings) {
@@ -89,27 +99,27 @@ function drawNodes(startPos, ctx, nodes, settings) {
 	    }
 
 	 }
-	 
+
 //	 var width = (maxLength + 3) * fontSize * 0.625;
 //         var height = (table.attributes.length + 1) * fontSize * 1.2 + fontSize / 2;
 	 width = (maxLength + 2)
-		 * settings.fontSize * 0.625;
+		 * settings.fontSize * 0.675;
 	 height = maxHeight
 		 * settings.fontSize * 1.2
 		 + settings.fontSize / 2;
       }
       for (var i = 0; i < next.length; i++) {
-	 var frame = computeFrame(startPos, width, height, i, next, level);
+	 var frame = computeFrame(startPos, width, height, i, next, level, settings);
 	 frames[next[i].id] = frame;
       }
       level++;
    }
-   
+
    for (var i = 0; i < nodes.length; i++) {
       drawTable(ctx, nodes[i].info, frames[nodes[i].id], settings);
    }
-   
-   for (var i = nodes.length-1; i > 0; i--) {
+
+   for (var i = nodes.length - 1; i > 0; i--) {
       var linksTo = nodes[i].linksTo;
       for (var j = 0; j < linksTo.length; j++) {
 	 drawLink(ctx, frames[nodes[i].id], frames[linksTo[j].id]);
@@ -117,6 +127,63 @@ function drawNodes(startPos, ctx, nodes, settings) {
    }
 }
 
-function drawDiagramFromXML(xml, canvas) {
-   
+function drawDiagramFromXML(nodeList, canvas, settings) {
+   var pos = {
+      "x": canvas.width / 2,
+      "y": canvas.height / 2
+   };
+   sortBy(nodeList, "refCount", greaterThan);
+   for (var i = 0; i < nodeList.length; i++) {
+      console.log(nodeList[i].info.name + " -> " + nodeList[i].refCount);
+   }
+   drawNodes(pos, canvas.getContext("2d"), nodeList, settings);
+}
+
+function createTableNodesHierarchy(jsonFromXML) {
+   var tablesObj = (jsonFromXML["metadados"])["tables"]["table"];
+   var tables = [];
+   var tablesKey = [];
+   var nodeList = [];
+   var nodesKey = [];
+   var nextId = 1;
+   for (var i = 0; i < tablesObj.length; i++) {
+      var tableObj = tablesObj[i];
+      var attributesObj = tableObj["@attributes"];
+      var info = new table(attributesObj["name"]);
+      tables.push(info);
+      tablesKey[info.name] = info;
+      var nd = new node(nextId++, info, null);
+      nodeList.push(nd);
+      nodesKey[info.name] = nd;
+      var attrs = tableObj["attributes"]["attribute"];
+      for (var j = 0; j < attrs.length; j++) {
+	 info.addAttr(attrs[j].name["#text"]);
+      }
+   }
+   for (var i = 0; i < tablesObj.length; i++) {
+      var tableObj = tablesObj[i];
+      var attributesObj = tableObj["@attributes"];
+      var info = tablesKey[attributesObj["name"]];
+      var attrs = tableObj["attributes"]["attribute"];
+      var tblNode = nodesKey[info.name];
+      for (var j = 0; j < attrs.length; j++) {
+	 if ((typeof(attrs[j].constraint) !== "undefined") 
+		 && (typeof(attrs[j].constraint.referenceTable) !== "undefined")) {
+	    var tblName = attrs[j].constraint.referenceTable["#text"];
+	    var tblField = attrs[j].constraint.referenceId["#text"];
+	    var fkTbl = tablesKey[tblName];
+	    if (!fkTbl) {
+	       fkTbl = new table(tblName);
+	       fkTbl.addAttr(tblField);
+	       tables.push(fkTbl);
+	       tablesKey[tblName] = fkTbl;
+	       var nd = new node(nextId++, fkTbl, null);
+	       nodeList.push(nd);
+	       nodesKey[fkTbl.name] = nd;
+	    }
+	    tblNode.addLinkTo(nodesKey[tblName]);
+	 }
+      }
+   }
+   return nodeList;
 }

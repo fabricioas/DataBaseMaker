@@ -7,6 +7,7 @@
       <script type="text/javascript" src="./js/jquery-3.2.0.js"></script>
       <script type="text/javascript" src="./js/graphics-lib.js"></script>
       <script type="text/javascript" src="./js/domain.js"></script>
+      <script type="text/javascript" src="./js/converter.js"></script>
       <script type="text/javascript" src="./js/dmb-lib.js"></script>
       <link rel="stylesheet" href="./css/w3.css">
 
@@ -31,7 +32,7 @@
 	    </div>
 	    <div style="width: 64%; float: left; margin-left: 5px;">
 	       <label class="w3-text-blue"><b>Diagrama ER</b></label>
-	       <canvas style="background-color: lightgray" id="diagramaer" class="w3-input w3-border" width="500" height="507"></canvas>
+	       <canvas style="background-color: lightgray" id="diagramaer" class="w3-input w3-border" width="800" height="507"></canvas>
 	       <button id="btn-exportar" class="w3-btn w3-blue">Exportar Imagem</button>
 	    </div>
 
@@ -56,9 +57,21 @@
 	       });
 	    });
 	    $("#xmlInput").change(function () {
-	       var xml = $("#xmlInput").val();
-	       var canvas = $("#xmlInput").val();
-	       drawDiagramFromXML(xml, canvas);
+	       var xmlText = $("#xmlInput").val();
+	       var jsonFromXML = xmlStringToJson(xmlText);
+//	       console.log(JSON.stringify(jsonFromXML));
+
+	       var nodeList = createTableNodesHierarchy(jsonFromXML);
+
+//	       console.log(JSON.stringify(nodeList));
+	       var settings = {
+		  font: "Helvetica",
+		  fontSize: 10,
+		  backgroundColor: "#b0ccff",
+		  foregroundColor: "black"
+	       };
+	       var canvas = document.getElementById("diagramaer");
+	       drawDiagramFromXML(nodeList, canvas, settings);
 	    });
 
 	 });
