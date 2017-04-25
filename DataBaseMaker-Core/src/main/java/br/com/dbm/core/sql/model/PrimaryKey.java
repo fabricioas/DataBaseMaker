@@ -6,8 +6,7 @@ package br.com.dbm.core.sql.model;
  */
 public class PrimaryKey extends Constraint {
 
-    public PrimaryKey(String name) {
-        super(name);
-    }
-
+   public PrimaryKey(String name) {
+      super(name);
+   }
 }

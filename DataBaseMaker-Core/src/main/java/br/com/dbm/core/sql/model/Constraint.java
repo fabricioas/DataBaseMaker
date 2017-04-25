@@ -6,29 +6,27 @@ package br.com.dbm.core.sql.model;
  */
 public abstract class Constraint {
 
-    private String name;
+   private String name;
 
-    public Constraint(String name) {
-        this.name = name;
-    }
-    
-    public String getName() {
-        return name;
-    }
+   public Constraint(String name) {
+      this.name = name;
+   }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+   public String getName() {
+      return name;
+   }
 
-    public static Constraint createInstance(String name) throws Exception {
-        if(name.startsWith("PK")){
-            return new PrimaryKey(name);
-        } else if (name.startsWith("FK")){
-            return new ForeignKey(name);
-        } else if (name.startsWith("CK")){
-            return new CheckConstraint(name);
-        }
-        throw new IllegalArgumentException(name);
-    }
-    
+   public void setName(String name) {
+      this.name = name;
+   }
+
+   public static Constraint createInstance(String name) throws Exception {
+      if (name.startsWith("FK")) {
+	 return new ForeignKey(name);
+      } else if (name.startsWith("CK")) {
+	 return new CheckConstraint(name);
+      }
+      throw new IllegalArgumentException(name);
+   }
+
 }
